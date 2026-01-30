@@ -1,23 +1,23 @@
 # Search Agent Framework
 
-**Agent-to-Agent 分层多智能体系统，用于并行任务执行**
+**Agent-to-Agent layered multi-agent system for parallel task execution.**
 
-## 架构概览
+## Architecture Overview
 
-这是一个两层分层系统，将复杂查询分解为并行子任务，由专用智能体执行：
+This is a two-layer system that breaks down complex queries into parallel subtasks executed by dedicated agents:
 
-- **第一层 (Orchestrator)**: 使用 LangChain 的顶层编排器，通过 MCP 调用 `search_worker_pool`
-- **第二层 (SearchAgent)**: 执行具体的搜索任务
+- **Layer 1 (Orchestrator)**: Top-level LangChain orchestrator that calls `search_worker_pool` via MCP.
+- **Layer 2 (SearchAgent)**: Executes concrete search tasks.
 
-## 核心特性
+## Key Features
 
-- 🚀 **大规模并行化**: 最多 50 个并发搜索执行器
-- 🏗️ **两层架构**: Orchestrator → SearchWorkerPool → SearchAgent
-- 🔧 **MCP 集成**: 通过 Model Context Protocol 实现进程隔离
-- 🎯 **专用执行器**: Search
-- 🛡️ **容错性**: 优雅降级和重试逻辑
+- 🚀 **High concurrency**: Up to 50 parallel search workers
+- 🏗️ **Two-layer architecture**: Orchestrator → SearchWorkerPool → SearchAgent
+- 🔧 **MCP integration**: Process isolation via Model Context Protocol
+- 🎯 **Specialized execution**: Search-only
+- 🛡️ **Resilience**: Graceful fallback and retry logic
 
-## 快速开始
+## Quick Start
 
 ```python
 from search_agent.runtime import create_orchestrator
@@ -25,10 +25,10 @@ from search_agent.configuration import SearchAgentConfig
 from search_agent.shared import RunPaths
 from pathlib import Path
 
-# 创建配置
+# Create config
 config = SearchAgentConfig()
 
-# 创建运行路径
+# Create run paths
 paths = RunPaths(
     internal_root_dir=Path("./cache"),
     external_root_dir=Path("./cache"),
@@ -37,66 +37,67 @@ paths = RunPaths(
     external_run_dir=Path("./cache/test"),
 )
 
-# 创建 Orchestrator（会连接 search_worker_pool）
+# Create Orchestrator (connects to search_worker_pool)
 orchestrator = await create_orchestrator(config=config, paths=paths)
 
-# 执行查询
-result = await orchestrator.run("研究前5个AI框架并创建对比表")
+# Run a query
+result = await orchestrator.run("Compare the top 5 AI frameworks in a table")
 
-# 或流式获取实时更新
-async for chunk in orchestrator.stream("复杂的多步骤查询..."):
+# Or stream updates
+async for chunk in orchestrator.stream("A complex multi-step query..."):
     print(chunk)
 
-# 清理资源
+# Cleanup
 await orchestrator.close()
 ```
 
-## 项目结构
+## Project Structure
 
 ```
 search_agent_framework/
-├── README.md                    # 项目说明（本文件）
-├── ARCHITECTURE.md              # 详细架构文档
-├── requirements.txt             # Python依赖
-├── pool_config.yaml            # 工作池配置
+├── README.md                    # This file (EN)
+├── README.zh.md                 # Chinese README
+├── ARCHITECTURE.md              # Detailed architecture
+├── requirements.txt             # Python dependencies
+├── pool_config.yaml             # Worker pool config
 └── src/
     └── search_agent/
-        ├── orchestration/       # 编排层
-        │   └── orchestrator.py  # Orchestrator（连接 search_worker_pool）
-        ├── coordination/        # 工具类
-        │   └── _worker_wrapper.py  # Worker包装器
-        ├── execution/           # 执行层
+        ├── orchestration/       # Orchestration
+        │   └── orchestrator.py  # Orchestrator (connects to search_worker_pool)
+        ├── coordination/        # Helper utilities
+        │   └── _worker_wrapper.py
+        ├── execution/           # Execution layer
         │   └── search_executor.py
-        ├── infrastructure/      # 基础设施层
+        ├── infrastructure/      # Infrastructure
         │   └── firecrawl-mcp-server/  # Firecrawl MCP Server
-        ├── configuration/       # 配置系统
-        ├── runtime/            # 运行时服务
-        └── shared/             # 共享代码
+        ├── configuration/       # Configuration
+        ├── runtime/             # Runtime services
+        └── shared/              # Shared code
 ```
 
-详细的项目结构请参考 [ARCHITECTURE.md](ARCHITECTURE.md)。
+See `ARCHITECTURE.md` for full details.
 
-## 技术栈
+## Tech Stack
 
-- **编排层**: LangChain (Orchestrator)
-- **执行层**: LangChain (SearchAgent)
-- **通信**: Model Context Protocol (MCP)
-- **并行化**: asyncio.gather（search_worker_pool 内部调度）
-- **外部服务**: Firecrawl (搜索)
+- **Orchestration**: LangChain (Orchestrator)
+- **Execution**: LangChain (SearchAgent)
+- **Transport**: MCP (Model Context Protocol)
+- **Parallelism**: asyncio.gather (managed inside search_worker_pool)
+- **External service**: Firecrawl (search)
 
-## 安装
+## Installation
 
-### 1. 安装 Python 依赖
+### 1. Install Python dependencies
 
 ```bash
 pip install -r requirements.txt
 ```
 
-### 2. 构建 Firecrawl MCP 服务器
+### 2. Build Firecrawl MCP server
 
-Firecrawl MCP 服务器位于 `src/search_agent/infrastructure/firecrawl-mcp-server/`。
+The Firecrawl MCP server is located at `src/search_agent/infrastructure/firecrawl-mcp-server/`.
 
-**手动安装**
+**Manual install**
 
 ```bash
 cd src/search_agent/infrastructure/firecrawl-mcp-server
@@ -105,13 +106,13 @@ npm install
 npm run build
 ```
 
-**故障排除**: 如果遇到 `Cannot find module '../lib/tsc.js'` 错误，请删除 `node_modules` 和 `package-lock.json` 后重新安装。
+**Troubleshooting**: If you see `Cannot find module '../lib/tsc.js'`, delete `node_modules` and `package-lock.json` and reinstall.
 
-## 配置
+## Configuration
 
-### 工作池配置
+### Worker pool size
 
-编辑 `pool_config.yaml` 来调整工作池大小：
+Edit `pool_config.yaml` to adjust pool size:
 
 ```yaml
 pools:
@@ -119,9 +120,7 @@ pools:
     max_pool_size: 50
 ```
 
-### 环境变量
-
-设置必要的 API 密钥：
+### Environment variables
 
 ```bash
 export OPENAI_API_KEY="your-api-key"
@@ -130,22 +129,21 @@ export FIRECRAWL_API_KEY="your-firecrawl-key"
 
 ### Firecrawl API Key
 
-如果没有 API Key，可以从 https://www.firecrawl.dev/app/api-keys 获取。
+Get one at https://www.firecrawl.dev/app/api-keys
 
-## 使用示例
+## Examples
 
-更多使用示例请参考 `examples/` 目录下的 Jupyter Notebook：
+See notebooks under `examples/`:
 
-- `examples/agents/search_agent_test.ipynb` - SearchAgent 使用示例
-- `examples/managers/search_manager_test.ipynb` - Orchestrator 端到端测试
+- `examples/agents/search_agent_test.ipynb` - SearchAgent usage
+- `examples/managers/search_manager_test.ipynb` - Orchestrator end-to-end test
 
-## 架构说明
+## Architecture
 
-详细架构说明请参考 [ARCHITECTURE.md](ARCHITECTURE.md)，包括：
+See `ARCHITECTURE.md` for:
 
-- 完整的目录结构
-- 核心组件说明
-- 数据流程图
-- 命名规范
-- 使用示例
-
+- Full directory structure
+- Core components
+- Data flow
+- Naming conventions
+- Usage examples
