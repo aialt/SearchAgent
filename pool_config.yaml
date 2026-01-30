@@ -1,0 +1,6 @@
+# Agent Pool Size Configuration
+# Configure the maximum number of concurrent worker agents for each pool type
+
+pools:
+  search:
+    max_pool_size: 50     # SearchAgent pool size

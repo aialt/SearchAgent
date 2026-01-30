@@ -1,0 +1,231 @@
+# ============================================================================
+# Search Agent Framework - Requirements
+# ============================================================================
+# Based on a2a_tree_framework requirements.txt
+# Updated for search_agent_framework architecture
+
+# ----------------------------------------------------------------------------
+# Core LangChain dependencies
+# ----------------------------------------------------------------------------
+langchain==1.0.2
+langchain-core==1.0.1
+langchain-openai==1.0.1
+langchain-mcp-adapters==0.1.11
+langgraph==1.0.1
+langgraph-checkpoint==3.0.0
+langgraph-prebuilt==1.0.1
+langgraph-sdk==0.2.9
+langsmith==0.4.38
+# Optional LangChain model providers (used in factory.py)
+langchain-anthropic  # Optional - for ChatAnthropic support
+langchain-google-genai  # Optional - for ChatGoogleGenerativeAI support
+
+# ----------------------------------------------------------------------------
+# MCP (Model Context Protocol) dependencies
+# ----------------------------------------------------------------------------
+mcp==1.15.0
+fastmcp==2.13.0.1
+
+# ----------------------------------------------------------------------------
+# OpenAI and LLM clients
+# ----------------------------------------------------------------------------
+openai==2.6.1
+tiktoken==0.11.0
+tokenizers==0.22.1
+
+# ----------------------------------------------------------------------------
+# Pydantic and data validation
+# ----------------------------------------------------------------------------
+pydantic==2.11.9
+pydantic-settings==2.11.0
+pydantic_core==2.33.2
+annotated-types==0.7.0
+
+# ----------------------------------------------------------------------------
+# Async and HTTP libraries (dependencies of LangChain, MCP, etc.)
+# ----------------------------------------------------------------------------
+# aiofiles==24.1.0  # Not needed - not used directly
+aiohttp==3.12.15  # Required by some LangChain/MCP dependencies
+aiohappyeyeballs==2.6.1  # Required by aiohttp
+aiosignal==1.4.0  # Required by aiohttp
+anyio==4.11.0  # Required by httpx, MCP
+httpx==0.28.1  # Required by LangChain, MCP
+httpx-sse==0.4.1  # Required by httpx
+httpcore==1.0.9  # Required by httpx
+# httptools==0.6.4  # Optional - not required
+requests==2.32.5  # Required by some LangChain dependencies
+urllib3==2.5.0  # Required by requests
+
+# ----------------------------------------------------------------------------
+# Browser automation (Playwright) - REMOVED (browser functionality deleted)
+# ----------------------------------------------------------------------------
+# playwright==1.51.0  # Not needed - browser functionality removed
+# pyee==12.1.1  # Not needed - browser functionality removed
+
+# ----------------------------------------------------------------------------
+# Docker (for _docker.py utility functions)
+# ----------------------------------------------------------------------------
+docker==7.1.0  # Used in shared/_docker.py for Docker image checking
+
+# ----------------------------------------------------------------------------
+# Configuration and environment
+# ----------------------------------------------------------------------------
+pyyaml==6.0.3
+python-dotenv==1.1.1
+
+# ----------------------------------------------------------------------------
+# Logging - REMOVED (using standard library logging)
+# ----------------------------------------------------------------------------
+# loguru==0.7.3  # Not needed - using standard library logging
+# coloredlogs==15.0.1  # Not needed - using standard library logging
+# humanfriendly==10.0  # Not needed - using standard library logging
+
+# ----------------------------------------------------------------------------
+# File processing and document handling - REMOVED (filesystem functionality deleted)
+# ----------------------------------------------------------------------------
+# beautifulsoup4==4.13.5  # Not needed - filesystem functionality removed
+# html2text==2025.4.15  # Not needed - filesystem functionality removed
+# markdown-it-py==4.0.0  # Not needed - filesystem functionality removed
+# markdownify==1.2.0  # Not needed - filesystem functionality removed
+# markitdown==0.1.3  # Not needed - filesystem functionality removed
+# lxml==6.0.2  # Not needed - filesystem functionality removed
+# openpyxl==3.1.5  # Not needed - filesystem functionality removed
+# xlrd==2.0.2  # Not needed - filesystem functionality removed
+# xlsxwriter==3.2.9  # Not needed - filesystem functionality removed
+# python-pptx==1.0.2  # Not needed - filesystem functionality removed
+# mammoth==1.10.0  # Not needed - filesystem functionality removed
+# pdfminer.six==20250506  # Not needed - filesystem functionality removed
+# Pillow==11.3.0  # Not needed - filesystem functionality removed
+
+# ----------------------------------------------------------------------------
+# Data processing - REMOVED (not used)
+# ----------------------------------------------------------------------------
+# numpy==2.3.3  # Not needed - not used in code
+# pandas==2.3.2  # Not needed - not used in code
+
+# ----------------------------------------------------------------------------
+# Media processing (for filesystem_service)
+# ----------------------------------------------------------------------------
+# Note: These are optional but recommended for full filesystem_service functionality
+# yt_dlp  # Install separately if needed
+# ffmpeg-python  # Install separately if needed
+# opencv-python  # Install separately if needed
+# scenedetect  # Install separately if needed
+
+# ----------------------------------------------------------------------------
+# Utilities - REMOVED (not used)
+# ----------------------------------------------------------------------------
+# click==8.3.0  # Not needed - not used in code
+# typer==0.20.0  # Not needed - not used in code
+# typer-slim==0.20.0  # Not needed - not used in code
+# rich==14.2.0  # Not needed - not used in code
+# rich-rst==1.3.2  # Not needed - not used in code
+# rich-toolkit==0.15.1  # Not needed - not used in code
+# tqdm==4.67.1  # Not needed - not used in code
+# tenacity==9.1.2  # Not needed - not used in code
+# backoff==2.2.1  # Not needed - not used in code
+# python-dateutil==2.9.0.post0  # Not needed - not used in code
+# pytz==2025.2  # Not needed - not used in code
+# tzdata==2025.2  # Not needed - not used in code
+
+# ----------------------------------------------------------------------------
+# System and process management
+# ----------------------------------------------------------------------------
+psutil==7.1.0  # Used in shared/utils.py for get_internal_urls()
+# filelock==3.19.1  # Not needed - not used in code
+# platformdirs==4.4.0  # Not needed - not used in code
+# pathvalidate==3.3.1  # Not needed - not used in code
+
+# ----------------------------------------------------------------------------
+# Type hints and validation
+# ----------------------------------------------------------------------------
+typing-extensions==4.15.0
+typing-inspection==0.4.1
+
+# ----------------------------------------------------------------------------
+# JSON and data serialization - REMOVED (using standard library json)
+# ----------------------------------------------------------------------------
+# orjson==3.11.3  # Not needed - using standard library json
+# ormsgpack==1.11.0  # Not needed - using standard library json
+# jsonpatch==1.33  # Not needed - not used in code
+# jsonpointer==3.0.0  # Not needed - not used in code
+# jsonref==1.1.0  # Not needed - not used in code
+
+# ----------------------------------------------------------------------------
+# Schema validation - REMOVED (not used)
+# ----------------------------------------------------------------------------
+# jsonschema==4.25.1  # Not needed - not used in code
+# jsonschema-path==0.3.4  # Not needed - not used in code
+# jsonschema-specifications==2025.9.1  # Not needed - not used in code
+# referencing==0.36.2  # Not needed - not used in code
+# rpds-py==0.27.1  # Not needed - not used in code
+
+# ----------------------------------------------------------------------------
+# Network and security (dependencies of httpx, requests, etc.)
+# ----------------------------------------------------------------------------
+certifi==2025.10.5  # Required by httpx, requests
+charset-normalizer==3.4.3  # Required by requests
+idna==3.10  # Required by httpx, requests
+# cryptography==46.0.1  # Not needed - not used directly
+# bcrypt==4.3.0  # Not needed - not used directly
+# PyJWT==2.10.1  # Not needed - not used directly
+# pyasn1==0.6.1  # Not needed - not used directly
+# pyasn1-modules==0.4.2  # Not needed - not used directly
+
+# ----------------------------------------------------------------------------
+# Database (optional, for some features)
+# ----------------------------------------------------------------------------
+# SQLAlchemy==2.0.43  # Uncomment if needed
+# sqlmodel==0.0.25  # Uncomment if needed
+# psycopg==3.2.10  # Uncomment if needed
+
+# ----------------------------------------------------------------------------
+# Jupyter/IPython (for examples and notebooks)
+# ----------------------------------------------------------------------------
+ipykernel==6.30.1
+ipython==9.5.0
+jupyter_client==8.6.3
+jupyter_core==5.8.1
+ipython_pygments_lexers==1.1.1
+matplotlib-inline==0.1.7
+
+# ----------------------------------------------------------------------------
+# Development and debugging (optional)
+# ----------------------------------------------------------------------------
+# debugpy==1.8.17  # Uncomment for debugging
+# pytest  # Install separately if needed for testing
+
+# ----------------------------------------------------------------------------
+# Additional utilities (dependencies of aiohttp, httpx, etc.)
+# ----------------------------------------------------------------------------
+# nest-asyncio==1.6.0  # Not needed - not used directly
+frozenlist==1.7.0  # Required by aiohttp
+multidict==6.6.4  # Required by aiohttp
+yarl==1.20.1  # Required by aiohttp
+packaging==25.0  # Required by some packages
+setuptools==80.9.0  # Usually included, but explicit for clarity
+wheel  # Usually included, but explicit for clarity
+
+# ----------------------------------------------------------------------------
+# Optional dependencies (install separately if needed)
+# ----------------------------------------------------------------------------
+# For filesystem_service advanced features:
+# yt_dlp  # YouTube downloader
+# ffmpeg-python  # Video processing
+# opencv-python  # Image processing
+# scenedetect  # Video scene detection
+# python-pptx  # PowerPoint processing (already included above)
+# docx2markdown  # Word to Markdown conversion
+# chunkr_ai  # Document chunking
+# xls2xlsx  # Excel format conversion
+
+# For Azure Document Intelligence (if needed):
+# azure-ai-documentintelligence==1.0.2
+# azure-core==1.35.1
+# azure-identity==1.25.0
+
+# For ChromaDB (if needed):
+# chromadb==1.1.0
+
+# For Kubernetes (if needed):
+# kubernetes==33.1.0
