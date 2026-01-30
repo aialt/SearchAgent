@@ -1,7 +1,5 @@
 # Search Agent Framework
 
-**Agent-to-Agent layered multi-agent system for parallel task execution.**
-
 ## Architecture Overview
 
 This is a two-layer system that breaks down complex queries into parallel subtasks executed by dedicated agents:
@@ -12,7 +10,7 @@ This is a two-layer system that breaks down complex queries into parallel subtas
 ## Key Features
 
 - 🚀 **High concurrency**: Up to 50 parallel search workers
-- 🏗️ **Two-layer architecture**: Orchestrator → SearchWorkerPool → SearchAgent
+- 🏗️ **Two-layer architecture**: Orchestrator → SearchWorkers
 - 🔧 **MCP integration**: Process isolation via Model Context Protocol
 - 🎯 **Specialized execution**: Search-only
 - 🛡️ **Resilience**: Graceful fallback and retry logic
@@ -54,9 +52,8 @@ await orchestrator.close()
 ## Project Structure
 
 ```
-search_agent_framework/
-├── README.md                    # This file (EN)
-├── README.zh.md                 # Chinese README
+SearchAgent/
+├── README.md                    # README
 ├── ARCHITECTURE.md              # Detailed architecture
 ├── requirements.txt             # Python dependencies
 ├── pool_config.yaml             # Worker pool config

@@ -1,7 +1,5 @@
 # Search Agent Framework
 
-**Agent-to-Agent 分层多智能体系统，用于并行任务执行**
-
 ## 架构概览
 
 这是一个两层分层系统，将复杂查询分解为并行子任务，由专用智能体执行：
@@ -12,7 +10,7 @@
 ## 核心特性
 
 - 🚀 **大规模并行化**: 最多 50 个并发搜索执行器
-- 🏗️ **两层架构**: Orchestrator → SearchWorkerPool → SearchAgent
+- 🏗️ **两层架构**: Orchestrator → SearchWorkers
 - 🔧 **MCP 集成**: 通过 Model Context Protocol 实现进程隔离
 - 🎯 **专用执行器**: Search
 - 🛡️ **容错性**: 优雅降级和重试逻辑
@@ -54,8 +52,8 @@ await orchestrator.close()
 ## 项目结构
 
 ```
-search_agent_framework/
-├── README.md                    # 项目说明（本文件）
+SearchAgent/
+├── README.md                    # 项目说明
 ├── ARCHITECTURE.md              # 详细架构文档
 ├── requirements.txt             # Python依赖
 ├── pool_config.yaml            # 工作池配置
