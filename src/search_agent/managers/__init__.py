@@ -1,5 +1,5 @@
 """Manager agents for Search Agent Framework."""
 
-from .search_manager_agent import SearchManagerAgent
+# Orchestrator (orchestration/orchestrator.py) is the Search Manager; no separate manager class.
 
-__all__ = ["SearchManagerAgent"]
+__all__: list[str] = []

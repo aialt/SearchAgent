@@ -24,54 +24,74 @@ MAX_POOL_SIZE = get_pool_size("search")
 # FastMCP server instance
 mcp = FastMCP("SearchWorkerPool")
 
-EXECUTE_SUBTASKS_DESCRIPTION = f"""
-Execute 1–{MAX_POOL_SIZE} independent web search subtasks in parallel using a pool of Search Agents.
 
-CRITICAL LIMIT:
-- This tool accepts AT MOST {MAX_POOL_SIZE} subtasks per call.
-- If you have more than {MAX_POOL_SIZE} subtasks, you MUST split them into multiple calls.
-- Each call must contain between 1 and {MAX_POOL_SIZE} subtasks (inclusive).
+EXECUTE_SUBTASKS_DESCRIPTION = f"""\
+Execute 1–{MAX_POOL_SIZE} independent web search subtasks in parallel.
 
-CAPABILITY:
-- **Web Search**: Can perform broad searches (Google/Firecrawl) to find relevant URLs.
-- **Deep Retrieval**: Can open identifiers/URLs and read specific page content.
-- **Extraction**: Can summarize information from search results or page content.
-- **Constraints**: Agents are STATELESS and ISOLATED. They cannot see other agents' results.
+LIMIT: Max {MAX_POOL_SIZE} subtasks per call. Split larger lists into multiple calls.
 
-WHEN TO USE:
-- Use this tool when:
-  - You have one or more clear, factual, or retrieval-style queries.
-  - Multiple queries can be answered independently.
-  - You want to batch these lookups for efficiency.
+CAPABILITIES: Web search, URL scraping, content extraction. Agents are STATELESS and ISOLATED — they cannot see each other's results.
 
-SUBTASK DESIGN (STRICT RULES):
-1. **SELF-CONTAINED**:
-   - Each subtask string must be fully independent.
-   - **NEVER** write "For the same universities..." or "For the list found above...". The worker DOES NOT KNOW what list you are talking about.
-   - **ALWAYS** explicitly repeat the full entity names (e.g. "Find the fees for Harvard, MIT, and Oxford...").
-2. **NATURAL LANGUAGE**:
-   - Write full questions or directives (e.g. "Find the release date of Black Myth Wukong").
-   - Do NOT send keyword blobs.
-3. **DISTINCT**:
-   - Do NOT generate multiple near-identical queries.
-4. **ATOMIC SCOPE**:
-   - Do NOT ask for "all items in range X to Y" in one subtask.
-   - Workers perform better on specific targets rather than broad scraping.
-5. **CONSTRAINT VERIFICATION**:
-   - If a subtask asks to verify multiple constraints for an entity, check ALL constraints in the query.
-   - Example: "For sulfur: verify if commonly used in daily life AND find first purification date"
-   - **DO NOT** return partial results (e.g., only answering one of the two questions).
-   - If information for a constraint is not found, explicitly state "Not found" for that constraint.
-
-OUTPUT STYLE:
-- Each result should be concise, factual, and directly responsive.
-- Optionally include 1–3 key source URLs.
+SUBTASK RULES:
+- Each subtask must be SELF-CONTAINED with full entity names. Never write "the above" or "same as before".
+- Write natural language queries, not keyword blobs.
+- No duplicate or near-identical queries.
+- Keep scope atomic — one specific target per subtask, not broad ranges.
+- If verifying multiple constraints, list ALL in the query. State "Not found" for missing info.
 
 Args:
-  subtasks: List[str]
-    A list of 1 to {MAX_POOL_SIZE} fully self-contained search queries.
-    MUST NOT exceed {MAX_POOL_SIZE} items. Split larger lists into multiple calls.
+  subtasks: List[str] — 1 to {MAX_POOL_SIZE} fully self-contained search queries.
 """
+
+
+# EXECUTE_SUBTASKS_DESCRIPTION = f"""
+# Execute 1–{MAX_POOL_SIZE} independent web search subtasks in parallel using a pool of Search Agents.
+
+# CRITICAL LIMIT:
+# - This tool accepts AT MOST {MAX_POOL_SIZE} subtasks per call.
+# - If you have more than {MAX_POOL_SIZE} subtasks, you MUST split them into multiple calls.
+# - Each call must contain between 1 and {MAX_POOL_SIZE} subtasks (inclusive).
+
+# CAPABILITY:
+# - **Web Search**: Can perform broad searches (Google/Firecrawl) to find relevant URLs.
+# - **Deep Retrieval**: Can open identifiers/URLs and read specific page content.
+# - **Extraction**: Can summarize information from search results or page content.
+# - **Constraints**: Agents are STATELESS and ISOLATED. They cannot see other agents' results.
+
+# WHEN TO USE:
+# - Use this tool when:
+#   - You have one or more clear, factual, or retrieval-style queries.
+#   - Multiple queries can be answered independently.
+#   - You want to batch these lookups for efficiency.
+
+# SUBTASK DESIGN (STRICT RULES):
+# 1. **SELF-CONTAINED**:
+#    - Each subtask string must be fully independent.
+#    - **NEVER** write "For the same universities..." or "For the list found above...". The worker DOES NOT KNOW what list you are talking about.
+#    - **ALWAYS** explicitly repeat the full entity names (e.g. "Find the fees for Harvard, MIT, and Oxford...").
+# 2. **NATURAL LANGUAGE**:
+#    - Write full questions or directives (e.g. "Find the release date of Black Myth Wukong").
+#    - Do NOT send keyword blobs.
+# 3. **DISTINCT**:
+#    - Do NOT generate multiple near-identical queries.
+# 4. **ATOMIC SCOPE**:
+#    - Do NOT ask for "all items in range X to Y" in one subtask.
+#    - Workers perform better on specific targets rather than broad scraping.
+# 5. **CONSTRAINT VERIFICATION**:
+#    - If a subtask asks to verify multiple constraints for an entity, check ALL constraints in the query.
+#    - Example: "For sulfur: verify if commonly used in daily life AND find first purification date"
+#    - **DO NOT** return partial results (e.g., only answering one of the two questions).
+#    - If information for a constraint is not found, explicitly state "Not found" for that constraint.
+
+# OUTPUT STYLE:
+# - Each result should be concise, factual, and directly responsive.
+# - Optionally include 1–3 key source URLs.
+
+# Args:
+#   subtasks: List[str]
+#     A list of 1 to {MAX_POOL_SIZE} fully self-contained search queries.
+#     MUST NOT exceed {MAX_POOL_SIZE} items. Split larger lists into multiple calls.
+# """
 
 worker_pool: List[WorkerAgentWrapper] = []
 pool_lock = asyncio.Lock()

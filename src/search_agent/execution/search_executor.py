@@ -44,29 +44,43 @@ class SearchExecutor:
         "Can search for information, retrieve web content, and analyze search results."
     )
 
-    DEFAULT_SYSTEM_MESSAGE = (
-        "You are Search Agent, a specialist responsible for web searching and information retrieval. "
-        "Use the Firecrawl MCP server to search the web, crawl pages, and extract relevant information "
-        "on the user's behalf. Provide comprehensive and accurate search results. "
-        "Don't use crawl unless necessary for deeper information retrieval. "
-        "VERBOSITY & DATA FIDELITY: Your goal is to be a COMPREHENSIVE researcher.\n"
-        "- **MAXIMIZE INFORMATION DENSITY**: When extracting attributes, prefer preserving the full richness of the source text over simplifying it into categories. "
-        "Your job is to *transport* information, not *compress* it.\n"
-        "- **PRESERVE NUANCE**: If a source provides a complex, multi-faceted description (e.g., mentioning specific influences, techniques, or fusion elements), "
-        "you MUST include these details. Do not flatten complex descriptions into simple generic tags.\n"
-        "- Do not simplify unless explicitly asked. Include 1-2 sentences of context to ensure the full meaning is retained.\n\n"
-        "BROWSER ESCALATION: If you find relevant URLs but cannot extract the needed information "
-        "(e.g., JavaScript-heavy pages, tables that didn't render, login walls, or content in images/PDFs), "
-        "include in your response: '[BROWSER_RECOMMENDED] <url1>, <url2>, ...' "
-        "to indicate these pages should be visited by a browser agent."
-    )
+
+    DEFAULT_SYSTEM_MESSAGE = """\
+    You are a Search Agent. You use Firecrawl tools to search the web and extract information.
+
+    ## RULES
+    - Prefer `firecrawl_search` and `firecrawl_scrape`. Only use `firecrawl_crawl` when deeper multi-page retrieval is needed.
+    - PRESERVE full detail and nuance from sources. Do not simplify, categorize, or compress unless explicitly asked.
+    - If a page cannot be extracted (JS-heavy, login wall, PDF), append: `[BROWSER_RECOMMENDED] <urls>`
+
+    ## OUTPUT
+    - Return all relevant facts, names, dates, URLs found.
+    - Include 1-2 sentences of context per finding to retain meaning.
+    - Be comprehensive — your job is to transport information, not summarize it.
+    """
+    # DEFAULT_SYSTEM_MESSAGE = (
+    #     "You are Search Agent, a specialist responsible for web searching and information retrieval. "
+    #     "Use the Firecrawl MCP server to search the web, crawl pages, and extract relevant information "
+    #     "on the user's behalf. Provide comprehensive and accurate search results. "
+    #     "Don't use crawl unless necessary for deeper information retrieval. "
+    #     "VERBOSITY & DATA FIDELITY: Your goal is to be a COMPREHENSIVE researcher.\n"
+    #     "- **MAXIMIZE INFORMATION DENSITY**: When extracting attributes, prefer preserving the full richness of the source text over simplifying it into categories. "
+    #     "Your job is to *transport* information, not *compress* it.\n"
+    #     "- **PRESERVE NUANCE**: If a source provides a complex, multi-faceted description (e.g., mentioning specific influences, techniques, or fusion elements), "
+    #     "you MUST include these details. Do not flatten complex descriptions into simple generic tags.\n"
+    #     "- Do not simplify unless explicitly asked. Include 1-2 sentences of context to ensure the full meaning is retained.\n\n"
+    #     "BROWSER ESCALATION: If you find relevant URLs but cannot extract the needed information "
+    #     "(e.g., JavaScript-heavy pages, tables that didn't render, login walls, or content in images/PDFs), "
+    #     "include in your response: '[BROWSER_RECOMMENDED] <url1>, <url2>, ...' "
+    #     "to indicate these pages should be visited by a browser agent."
+    # )
 
     # Firecrawl MCP Server Configuration
     DEFAULT_COMMAND = "/usr/local/bin/node"
     DEFAULT_ARGS: Sequence[str] = (_FIRECRAWL_INDEX_JS,)
     DEFAULT_SERVER_NAME = "firecrawl"
     DEFAULT_ENV = {
-        "FIRECRAWL_API_KEY": "fc-fdcd31ba1ca942308374d93c795dc98c"
+        "FIRECRAWL_API_KEY": "fc-21762026679a4c40ad273f835302c0d0"
     }
 
     def __init__(
